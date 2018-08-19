@@ -1,8 +1,3 @@
-Packages:
+# dotfiles
 
-* feh
-* i3status
-* i3lock
-* dunst
-* xbacklight
-* nm-applet
+My dotfiles for i3, bash, vim, etc.
