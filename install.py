@@ -16,10 +16,17 @@ packages = [
 ]
 
 def install_packages():
+    print('About to install Fedora packages.')
     params = ['sudo', 'dnf', '-y', 'install']
     params.extend(packages)
     result = subprocess.run(params)
-    print(result.stdout)
+    print('\n')
+
+    print('About to install vim-plug.')
+    home = str(pathlib.Path.home())
+    vim_autoload_path = os.path.join(home, '.vim/autoload/plug.vim')
+    params = ['curl', '-fLo', vim_autoload_path, '--create-dirs', 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim']
+    result = subprocess.run(params)
 
 def create_links(root_dir):
     if not root_dir.endswith('/'):
