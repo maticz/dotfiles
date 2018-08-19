@@ -13,11 +13,15 @@ packages = [
     'xbacklight',
     'feh',
     'network-manager-applet',
+    'redshift',
+    'cmake',
+    'gcc-g++',
+    'python3-devel',
 ]
 
 def install_packages():
     print('About to install Fedora packages.')
-    params = ['sudo', 'dnf', '-y', 'install']
+    params = ['sudo', 'dnf', '--refresh', '-y', 'install']
     params.extend(packages)
     result = subprocess.run(params)
     print('\n')
