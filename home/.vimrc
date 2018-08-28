@@ -5,7 +5,7 @@ Plug 'sjl/gundo.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'neomake/neomake'
 Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py' }
-Plug 'fatih/vim-go', { 'tag': '*', 'do': ':GoInstallBinaries' }
+Plug 'fatih/vim-go', { 'tag': '*', 'do': ':GoUpdateBinaries' }
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 call plug#end()
