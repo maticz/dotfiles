@@ -199,9 +199,9 @@ exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Natu
 exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Click Method Enabled" {0, 1}
 
 # Start apps
+exec --no-startup-id xautolock -time 5 -locker "($lock_suspend_screen)" &
 exec --no-startup-id dunst -config ~/.config/i3/dunst.conf
 exec --no-startup-id feh --bg-scale /usr/share/backgrounds/f28/default/standard/f28.png
-#exec --no-startup-id xautolock -time 1 -locker $lock &
 exec --no-startup-id nm-applet
 #exec --no-startup-id blueman-applet
 # exec --no-startup-id /usr/libexec/geoclue-2.0/demos/agent
