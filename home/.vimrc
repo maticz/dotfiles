@@ -4,8 +4,12 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'sjl/gundo.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'neomake/neomake'
+" Use without --go-completer flag to force YCM to use omnifunc set by vim-go.
+" Vim-go is usually faster to add support for new Go versions as was the case
+" with a switch to github.com/mdempsky/gocode to support Go 1.11.
+" For more info see: https://github.com/fatih/vim-go/issues/390
 Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py' }
-Plug 'fatih/vim-go', { 'tag': '*', 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', { 'tag': '*', 'do': ':GoInstallBinaries' }
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 call plug#end()
