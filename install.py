@@ -15,7 +15,7 @@ packages = [
     'network-manager-applet',
     'redshift',
     'cmake',
-    'gcc-g++',
+    'gcc-c++',
     'python3-devel',
 ]
 
