@@ -9,7 +9,7 @@ case $1 in
 	up)
 		# Set the volume on (if it was muted)
 		#amixer -D pulse set Master on > /dev/null
-		pactl set-sink-mute 1 1
+		pactl set-sink-mute 1 0
 		# Up the volume (+ 5%)
 		pactl set-sink-volume 1 +5%
 		#amixer -D pulse sset Master 5%+ > /dev/null
