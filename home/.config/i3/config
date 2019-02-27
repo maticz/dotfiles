@@ -38,6 +38,7 @@ bindsym XF86AudioMicMute exec --no-startup-id sh ~/.config/i3/bin/volume.sh mic
 bindsym $mod+Ctrl+l exec --no-startup-id $lock_suspend_screen
 
 # start a terminal
+#bindsym $mod+Return exec --no-startup-id urxvtc
 bindsym $mod+Return exec --no-startup-id sh ~/.config/i3/bin/shell.sh
 
 # kill focused window
@@ -133,6 +134,9 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
+# move the whole workspace to the next output
+bindsym $mod+x move workspace to output down
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -186,11 +190,12 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status --config ~/.config/i3/i3status.conf
+	tray_output primary
 	position top
+	status_command i3status --config ~/.config/i3/i3status.conf
 }
 
-for_window [class="VidyoDesktop"] floating enable
+for_window [class="Zoom"] floating enable
 
 # Touchpad natural scrolling
 exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Natural Scrolling Enabled" 1
@@ -199,10 +204,11 @@ exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Natu
 exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Click Method Enabled" {0, 1}
 
 # Start apps
-exec --no-startup-id xautolock -time 5 -locker "($lock_suspend_screen)" &
+exec --no-startup-id xautolock -time 5 -detectsleep -corners -000 -locker "($lock_suspend_screen)" &
 exec --no-startup-id dunst -config ~/.config/i3/dunst.conf
 exec --no-startup-id feh --bg-scale /usr/share/backgrounds/f28/default/standard/f28.png
 exec --no-startup-id nm-applet
 #exec --no-startup-id blueman-applet
 # exec --no-startup-id /usr/libexec/geoclue-2.0/demos/agent
 exec --no-startup-id redshift
+exec --no-startup-id urxvtd -q -f -o
