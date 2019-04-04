@@ -3,16 +3,31 @@ call plug#begin()
 Plug 'altercation/vim-colors-solarized'
 Plug 'sjl/gundo.vim'
 Plug 'tomtom/tcomment_vim'
-Plug 'neomake/neomake'
-" Use without --go-completer flag to force YCM to use omnifunc set by vim-go.
-" Vim-go is usually faster to add support for new Go versions as was the case
-" with a switch to github.com/mdempsky/gocode to support Go 1.11.
-" For more info see: https://github.com/fatih/vim-go/issues/390
-Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py' }
-Plug 'fatih/vim-go', { 'tag': '*', 'do': ':GoInstallBinaries' }
+"Plug 'neomake/neomake'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 call plug#end()
+
+if executable('gopls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'gopls',
+        \ 'cmd': {server_info->['gopls']},
+        \ 'whitelist': ['go'],
+        \ })
+endif
+
+nnoremap <buffer> gd <plug>(lsp-definition)
+nnoremap <buffer> ,n <plug>(lsp-next-error)
+nnoremap <buffer> ,p <plug>(lsp-previous-error)
+autocmd BufWritePre *.go :LspDocumentFormatSync
+let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_signs_enabled = 1
+let g:lsp_signs_error = {'text': '✗'}
+let g:lsp_signs_warning = {'text': '‼'}
 
 set fileencodings=utf-8
 syn on
@@ -63,10 +78,6 @@ set laststatus=2
 " Status line settings
 " Filename
 set statusline=%f
-" vim-go
-set statusline+=%#goStatuslineColor#
-set statusline+=%{go#statusline#Show()}
-set statusline+=%*
 " Switch to the right side
 :set statusline+=%=
 " Current line
@@ -99,10 +110,10 @@ au BufRead,BufNewFile *.php,*.phtml set shiftwidth=4
 au BufNewFile,BufRead *.less set filetype=less
 
 "Plugin settings
-autocmd! BufWritePost,BufRead * Neomake
-let g:neomake_open_list = 2
-let g:neomake_go_enabled_makers = ['go', 'govet']
-let g:neomake_python_flake8_maker = {'args': ['--ignore=E126,E127,W191', '--max-line-length=120']}
+" autocmd! BufWritePost,BufRead * Neomake
+" let g:neomake_open_list = 2
+" let g:neomake_go_enabled_makers = ['go', 'govet']
+" let g:neomake_python_flake8_maker = {'args': ['--ignore=E126,E127,W191', '--max-line-length=120']}
 
 " let g:ale_lint_on_enter = 1
 " let g:ale_lint_on_save = 1
@@ -112,14 +123,4 @@ let g:neomake_python_flake8_maker = {'args': ['--ignore=E126,E127,W191', '--max-
 " \   'go': ['gofmt', 'go vet', 'go build'],
 " \}
 
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_add_preview_to_completeopt=0
-set completeopt-=preview
-
 let g:fzf_buffers_jump = 1
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
