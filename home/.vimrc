@@ -20,9 +20,10 @@ if executable('gopls')
         \ })
 endif
 
-nnoremap <buffer> gd <plug>(lsp-definition)
-nnoremap <buffer> ,n <plug>(lsp-next-error)
-nnoremap <buffer> ,p <plug>(lsp-previous-error)
+nnoremap <silent> gd :LspDefinition<CR>
+"nnoremap <buffer> gd <plug>(lsp-definition)
+"nnoremap <buffer> ,n <plug>(lsp-next-error)
+"nnoremap <buffer> ,p <plug>(lsp-previous-error)
 autocmd BufWritePre *.go :LspDocumentFormatSync
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_signs_enabled = 1
