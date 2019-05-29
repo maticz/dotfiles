@@ -1,9 +1,7 @@
-"execute pathogen#infect()
 call plug#begin()
 Plug 'altercation/vim-colors-solarized'
 Plug 'sjl/gundo.vim'
 Plug 'tomtom/tcomment_vim'
-"Plug 'neomake/neomake'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
@@ -109,19 +107,5 @@ au BufRead,BufNewFile *.php,*.phtml set tabstop=4
 au BufRead,BufNewFile *.php,*.phtml set shiftwidth=4
 
 au BufNewFile,BufRead *.less set filetype=less
-
-"Plugin settings
-" autocmd! BufWritePost,BufRead * Neomake
-" let g:neomake_open_list = 2
-" let g:neomake_go_enabled_makers = ['go', 'govet']
-" let g:neomake_python_flake8_maker = {'args': ['--ignore=E126,E127,W191', '--max-line-length=120']}
-
-" let g:ale_lint_on_enter = 1
-" let g:ale_lint_on_save = 1
-" let g:ale_lint_on_text_changed = 'never'
-" let g:ale_open_list = 1
-" let g:ale_linters = {
-" \   'go': ['gofmt', 'go vet', 'go build'],
-" \}
 
 let g:fzf_buffers_jump = 1
