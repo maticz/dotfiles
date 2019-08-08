@@ -31,7 +31,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle 
 
 # Locking
-bindsym $mod+Ctrl+l exec --no-startup-id $lock_suspend_screen
+bindsym $mod+Ctrl+l exec --no-startup-id $lock
 
 # start a terminal
 bindsym $mod+Return exec --no-startup-id alacritty
@@ -141,7 +141,7 @@ bindsym $mod+Shift+r restart
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id $lock_suspend_screen, mode "default"
+    bindsym l exec --no-startup-id $lock, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
     bindsym s exec --no-startup-id systemctl suspend, mode "default"
     bindsym h exec --no-startup-id systemctl hibernate, mode "default"
@@ -197,6 +197,10 @@ exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Natu
 
 # Touchpad two-fingers-as-right-click
 exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Click Method Enabled" {0, 1}
+
+# Screensaver (aka lock) after 4 minutes, suspend screen after 4.5 minutes
+exec --no-startup-id xset s 240
+exec --no-startup-id xset dpms 0 270 600
 
 # Start apps
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -i $HOME/Pictures/background.png --nofork
