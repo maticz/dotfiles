@@ -6,14 +6,14 @@
 
 case $1 in
     up)
-	xbacklight -inc 10
-	v=$(xbacklight -get)
+	light -A 10
+	v=$(light -G)
 	value="${v%.*}"
 	notify-send -a "Brightness" " " -h "int:value:$value"
 	;;
     down)
-	xbacklight -dec 10
-	v=$(xbacklight -get)
+	light -U 10
+	v=$(light -G)
 	value="${v%.*}"
 	notify-send -a "Brightness" " " -h "int:value:$value"
 	;;
