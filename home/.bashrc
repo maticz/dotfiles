@@ -1,16 +1,14 @@
-# .bashrc
+#
+# ~/.bashrc
+#
 
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
-fi
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
 
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
+alias ls='ls --color=auto'
+PS1='[\u@\h \W]\$ '
 
-# User specific aliases and functions
-
-export GOPATH="$HOME/Development/src/go"
+export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:/usr/local/go/bin:/usr/pgsql-11/bin:$PATH"
 
 export HISTFILESIZE=100000
@@ -18,7 +16,3 @@ export HISTSIZE=100000
 
 export VISUAL='nvim'
 export EDITOR="$VISUAL"
-
-# Hack to make ls output in Alacritty colorful
-eval "$(TERM=gnome dircolors --sh /etc/DIR_COLORS.lightbgcolor)"
-export USER_LS_COLORS="$LS_COLORS"
