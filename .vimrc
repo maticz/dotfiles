@@ -3,7 +3,6 @@ Plug 'iCyMind/NeoSolarized'
 Plug 'mbbill/undotree'
 Plug 'tomtom/tcomment_vim'
 Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug '/usr/local/opt/fzf'
@@ -18,11 +17,27 @@ if executable('gopls')
         \ })
 endif
 
-nnoremap <silent> gd :LspDefinition<CR>
-"nnoremap <buffer> gd <plug>(lsp-definition)
-"nnoremap <buffer> ,n <plug>(lsp-next-error)
-"nnoremap <buffer> ,p <plug>(lsp-previous-error)
-autocmd BufWritePre *.go :LspDocumentFormatSync
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <Plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <Plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+    autocmd BufWritePre * :LspDocumentFormatSync
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that have the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_signs_enabled = 1
 let g:lsp_signs_error = {'text': '✗'}
