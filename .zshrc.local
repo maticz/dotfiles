@@ -1,0 +1,12 @@
+HISTFILE=~/.histfile
+HISTSIZE=100000
+SAVEHIST=100000
+
+bindkey '^x^e' edit-command-line
+
+export VISUAL='nvim'
+export EDITOR="$VISUAL"
+
+export GOPRIVATE=github.com/Zemanta/,github.com/zemanta/,*.outbrain.com
+
+alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
