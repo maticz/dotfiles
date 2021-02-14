@@ -521,6 +521,10 @@ colors:
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
 key_bindings:
+  - { key: V,        mods: Alt,           action: Paste            }
+  - { key: C,        mods: Alt,           action: Copy             }
+  - { key: Return,   mods: Alt,           action: SpawnNewInstance }
+  - { key: Space,    mods: Alt,           action: ToggleViMode     }
   #- { key: Paste,                                action: Paste          }
   #- { key: Copy,                                 action: Copy           }
   #- { key: L,         mods: Control,             action: ClearLogNotice }
@@ -579,9 +583,6 @@ key_bindings:
   #- { key: N,      mods: Shift,         mode: Vi, action: SearchPrevious          }
 
   # (Windows, Linux, and BSD only)
-  - { key: V,        mods: Control|Alt,           action: Paste            }
-  - { key: C,        mods: Control|Alt,           action: Copy             }
-  - { key: N,        mods: Control|Alt,           action: SpawnNewInstance }
   #- { key: F,        mods: Control|Shift,           action: SearchForward    }
   #- { key: B,        mods: Control|Shift,           action: SearchBackward   }
   #- { key: C,        mods: Control|Shift, mode: Vi, action: ClearSelection   }
