@@ -10,6 +10,7 @@ Plug 'jceb/vim-orgmode'
 Plug 'tpope/vim-fugitive'
 Plug 'puremourning/vimspector'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+", {'branch': '0.5-compat', 'do': ':TSUpdate'}
 call plug#end()
 
 let g:vimspector_enable_mappings = 'HUMAN'
@@ -90,6 +91,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
+-- local servers = { "gopls", "pylsp" }
 local servers = { "gopls", "pyright" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
@@ -99,6 +101,19 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
+
+require "lspconfig".efm.setup {
+    init_options = {documentFormatting = true},
+    filetypes = {'python'},
+    settings = {
+        rootMarkers = {".git/"},
+        languages = {
+            python = {
+                {formatCommand = "black --quiet -", formatStdin = true}
+            }
+        }
+    }
+}
 EOF
 
 lua <<EOF
@@ -113,6 +128,7 @@ EOF
 " timeout at 5s because it takes a bit longer at the start
 " while lsp builds its cache.
 autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 5000)
+autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 5000)
 
 set fileencodings=utf-8
 set termguicolors
