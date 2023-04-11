@@ -81,10 +81,10 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
 end
@@ -92,7 +92,7 @@ end
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 -- local servers = { "gopls", "pylsp" }
-local servers = { "gopls", "pyright" }
+local servers = { "gopls", "pyright" , "ccls" , "tsserver"}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -118,7 +118,7 @@ EOF
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained",
+  ensure_installed = { "go", "python", "bash", "html", "javascript", "json", "make", "c", "lua", "rust" },
   highlight = {
     enable = true,
   },
@@ -127,8 +127,14 @@ EOF
 
 " timeout at 5s because it takes a bit longer at the start
 " while lsp builds its cache.
-autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 5000)
-autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 5000)
+autocmd BufWritePre *.go lua vim.lsp.buf.format({ async = false })
+autocmd BufWritePre *.py lua vim.lsp.buf.format({ async = false })
+" neovim 0.8+
+" vim.api.nvim_create_autocmd("BufWritePre", {
+"   pattern = { "*.go" },
+"   callback = vim.lsp.buf.format,
+" })
+autocmd BufWritePre *.go lua vim.lsp.buf.code_action({ source = { organizeImports = true } })
 
 set fileencodings=utf-8
 set termguicolors
