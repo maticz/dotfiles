@@ -11,7 +11,9 @@ Plug('junegunn/fzf', { ['do'] = function()
 end })
 Plug('ibhagwan/fzf-lua')
 Plug('tpope/vim-fugitive')
-Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
+Plug('nvim-treesitter/nvim-treesitter', {['branch'] = 'main', ['do'] = function()
+  vim.cmd('TSUpdate')
+end })
 Plug('saghen/blink.cmp', {['tag'] = '*'})
 -- Plug('github/copilot.vim')
 -- Plug('nvim-lua/plenary.nvim')
@@ -87,7 +89,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
     vim.keymap.set("n", "<space>f", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
 
-    if client and client.supports_method("textDocument/formatting") then
+    if client and client:supports_method("textDocument/formatting") then
       vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = args.buf,
         callback = function()
@@ -98,12 +100,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-vim.lsp.enable({ "gopls", "pyright" , "ccls" , "ts_ls"})
+vim.lsp.enable({ "gopls" })--, "pyright" , "ccls" , "ts_ls", "lua_ls"})
 
-require('nvim-treesitter.configs').setup {
-  ensure_installed = { "go", "python", "bash", "html", "javascript", "json", "make", "c", "lua", "rust" },
-  highlight = { enable = true },
-}
+require('nvim-treesitter').setup {}
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "go" },--, "python", "bash", "html", "javascript", "json", "make", "c", "lua", "rust" },
+  callback = function()
+    vim.treesitter.start()
+  end,
+})
 
 vim.opt.fileencodings = "utf-8"
 vim.opt.termguicolors = true
@@ -132,3 +138,5 @@ vim.keymap.set({"n", "v"}, "d", '"_d')
 vim.keymap.set({"n", "v"}, "D", '"_D')
 vim.keymap.set({"n", "v"}, "c", '"_c')
 vim.keymap.set({"n", "v"}, "C", '"_C')
+-- Map p to P to prevent copying when pasting over something.
+vim.keymap.set("x", "p", "P")
