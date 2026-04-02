@@ -9,7 +9,7 @@ vim.api.nvim_create_autocmd('PackChanged', {
 })
 
 vim.pack.add({
-  'https://github.com/iCyMind/NeoSolarized',
+  'https://github.com/maxmx03/solarized.nvim',
   'https://github.com/mbbill/undotree',
   'https://github.com/numToStr/Comment.nvim',
   'https://github.com/neovim/nvim-lspconfig',
@@ -116,7 +116,8 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.opt.fileencodings = "utf-8"
 vim.opt.termguicolors = true
 vim.opt.background = "dark"
-vim.cmd.colorscheme("NeoSolarized")
+require('solarized').setup({ variant = 'autumn' })
+vim.cmd.colorscheme("solarized")
 --:set hidden means that the buffer of the old file will only be hidden when you switch to the new file. When you switch back, you still have your undo history.
 vim.opt.hidden = true
 vim.opt.clipboard:append("unnamedplus")
