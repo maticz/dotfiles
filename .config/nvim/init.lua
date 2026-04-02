@@ -11,8 +11,6 @@ vim.api.nvim_create_autocmd('PackChanged', {
 vim.pack.add({
   'https://github.com/maxmx03/solarized.nvim',
   'https://github.com/mbbill/undotree',
-  'https://github.com/numToStr/Comment.nvim',
-  'https://github.com/neovim/nvim-lspconfig',
   'https://github.com/ibhagwan/fzf-lua',
   'https://github.com/tpope/vim-fugitive',
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'main' },
@@ -35,8 +33,6 @@ vim.pack.add({
 --     log_level = "DEBUG",
 --   },
 -- })
-
-require('Comment').setup()
 
 require('blink.cmp').setup({
     fuzzy = { implementation = 'prefer_rust_with_warning' },
@@ -95,6 +91,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = args.buf,
         callback = function()
+          if vim.bo.filetype == "go" then
+            local params = vim.lsp.util.make_range_params()
+            params.context = { only = { "source.organizeImports" } }
+            local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 1000)
+            for _, res in pairs(result or {}) do
+              for _, action in pairs(res.result or {}) do
+                if action.edit then
+                  vim.lsp.util.apply_workspace_edit(action.edit, "utf-8")
+                end
+              end
+            end
+          end
           vim.lsp.buf.format({ async = false })
         end,
       })
