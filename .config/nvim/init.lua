@@ -1,24 +1,26 @@
 local vim = vim
-local Plug = vim.fn['plug#']
 
-vim.call('plug#begin')
-Plug('iCyMind/NeoSolarized')
-Plug('mbbill/undotree')
-Plug('numToStr/Comment.nvim')
-Plug('neovim/nvim-lspconfig')
-Plug('junegunn/fzf', { ['do'] = function()
-  vim.fn['fzf#install']()
-end })
-Plug('ibhagwan/fzf-lua')
-Plug('tpope/vim-fugitive')
-Plug('nvim-treesitter/nvim-treesitter', {['branch'] = 'main', ['do'] = function()
-  vim.cmd('TSUpdate')
-end })
-Plug('saghen/blink.cmp', {['tag'] = '*'})
--- Plug('github/copilot.vim')
--- Plug('nvim-lua/plenary.nvim')
--- Plug('olimorris/codecompanion.nvim')
-vim.call('plug#end')
+vim.api.nvim_create_autocmd('PackChanged', {
+  callback = function(ev)
+    if ev.data.spec.name == 'nvim-treesitter' and (ev.data.kind == 'install' or ev.data.kind == 'update') then
+      vim.cmd('TSUpdate')
+    end
+  end,
+})
+
+vim.pack.add({
+  'https://github.com/iCyMind/NeoSolarized',
+  'https://github.com/mbbill/undotree',
+  'https://github.com/numToStr/Comment.nvim',
+  'https://github.com/neovim/nvim-lspconfig',
+  'https://github.com/ibhagwan/fzf-lua',
+  'https://github.com/tpope/vim-fugitive',
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'main' },
+  { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('*') },
+  -- 'https://github.com/github/copilot.vim',
+  -- 'https://github.com/nvim-lua/plenary.nvim',
+  -- 'https://github.com/olimorris/codecompanion.nvim',
+})
 
 -- require("codecompanion").setup({
 --   strategies = {
