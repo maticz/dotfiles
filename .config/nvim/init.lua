@@ -10,29 +10,11 @@ vim.api.nvim_create_autocmd('PackChanged', {
 
 vim.pack.add({
   'https://github.com/maxmx03/solarized.nvim',
-  'https://github.com/mbbill/undotree',
   'https://github.com/ibhagwan/fzf-lua',
   'https://github.com/tpope/vim-fugitive',
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'main' },
   { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('*') },
-  -- 'https://github.com/github/copilot.vim',
-  -- 'https://github.com/nvim-lua/plenary.nvim',
-  -- 'https://github.com/olimorris/codecompanion.nvim',
 })
-
--- require("codecompanion").setup({
---   strategies = {
---     chat = {
---       adapter = {
---         name = "copilot",
---         model = "claude-sonnet-4",
---       },
---     },
---   },
---   opts = {
---     log_level = "DEBUG",
---   },
--- })
 
 require('blink.cmp').setup({
     fuzzy = { implementation = 'prefer_rust_with_warning' },
@@ -137,9 +119,9 @@ vim.opt.foldmethod = "indent"
 vim.opt.foldlevel = 99
 
 vim.keymap.set("i", "jj", "<Esc>")
-vim.keymap.set("n", "<F5>", ":UndotreeToggle<CR>")
 vim.keymap.set("n", "<C-P>", ':lua require("fzf-lua").files()<CR>')
-vim.keymap.set("n", "<F2>", ":buffers<CR>:buffer<Space>")
+vim.keymap.set("n", "<F2>", ':lua require("fzf-lua").tabs()<CR>')
+vim.keymap.set('n', 'cpp', ':let @+ = expand("%")<CR>', { desc = "Copy path" })
 
 -- These are to cancel the default behavior of d, D, c, C
 -- to put the text they delete in the default register.
