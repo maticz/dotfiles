@@ -12,4 +12,4 @@ export EDITOR="$VISUAL"
 
 export GOPRIVATE=github.com/Zemanta/,github.com/zemanta/,*.outbrain.com
 
-alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias claude='claude --effort high'
