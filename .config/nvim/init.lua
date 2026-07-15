@@ -95,6 +95,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 vim.lsp.enable({ "gopls" })--, "pyright" , "ccls" , "ts_ls", "lua_ls"})
 
 require('nvim-treesitter').setup {}
+require('nvim-treesitter').install({ 'go' })
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "go" },--, "python", "bash", "html", "javascript", "json", "make", "c", "lua", "rust" },
